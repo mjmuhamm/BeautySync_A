@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "641124035153",
+    "project_id": "beautysync-9d79c",
+    "storage_bucket": "beautysync-9d79c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:641124035153:android:81312f610f2a4c4acd6670",
+        "android_client_info": {
+          "package_name": "com.example.beautysync_kotlin"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA2RdtSsYHwGGplX9vkp-tSkJ00Uq8kNMA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
