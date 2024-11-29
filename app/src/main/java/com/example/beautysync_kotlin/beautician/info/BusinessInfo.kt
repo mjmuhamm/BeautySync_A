@@ -78,7 +78,7 @@ class BusinessInfo : AppCompatActivity() {
             val data: Map<String, Any> = hashMapOf(
                 "education" to binding.education.text.toString(),
                 "passion" to binding.passion.text.toString(),
-                "streetAddress" to binding.streetAddress.toString(),
+                "streetAddress" to binding.streetAddress.text.toString(),
                 "city" to binding.city.text.toString(),
                 "state" to binding.state.text.toString(),
                 "zipCode" to binding.zipCode.text.toString(),

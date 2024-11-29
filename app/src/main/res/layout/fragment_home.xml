@@ -36,7 +36,7 @@
         android:orientation="horizontal">
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/catering"
+            android:id="@+id/hairCare"
             android:layout_width="wrap_content"
             style="@style/TextAppearance.AppCompat.Display2"
             android:layout_height="wrap_content"
@@ -48,7 +48,7 @@
             app:cornerRadius="1dp"/>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/personal_chef"
+            android:id="@+id/skinCare"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp"
@@ -60,7 +60,7 @@
             app:cornerRadius="1dp"/>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/meal_kit"
+            android:id="@+id/nailCare"
             android:layout_width="wrap_content"
             android:textSize="14sp"
             android:layout_height="wrap_content"

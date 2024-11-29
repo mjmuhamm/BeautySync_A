@@ -1,14 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".beautician.fragments.Orders">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/no_items_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:visibility="invisible"
+        android:layout_centerInParent="true"
+        android:textColor="@color/main"/>
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="34dp"
+        android:layout_height="34dp"
+        android:layout_centerInParent="true" />
+
+    <TextView
+        android:id="@+id/disclaimer_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="11sp"
+        android:textColor="@color/gray300"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="10dp"
+        android:text="@string/please_note_1"
+        android:textAlignment="center"/>
+
+
+    <LinearLayout
+        android:id="@+id/user_toggle_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/disclaimer_1"
+        android:layout_marginBottom="5dp"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/pending"
+            android:layout_width="wrap_content"
+            style="@style/TextAppearance.AppCompat.Display2"
+            android:layout_height="wrap_content"
+            android:text="@string/pending"
+            android:textAllCaps="false"
+            android:textSize="14sp"
+            android:padding="4dp"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/secondary"
+            app:cornerRadius="1dp"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/scheduled"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TextAppearance.AppCompat.Display2"
+            android:text="@string/scheduled"
+            android:textAllCaps="false"
+            android:textSize="14sp"
+            android:padding="4dp"
+            android:textColor="@color/main"
+            android:backgroundTint="@color/white"
+            app:cornerRadius="1dp"/>
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/complete"
+            android:layout_width="wrap_content"
+            style="@style/TextAppearance.AppCompat.Display2"
+            android:layout_height="wrap_content"
+            android:text="@string/complete"
+            android:padding="4dp"
+            android:textAllCaps="false"
+            android:textSize="14sp"
+            android:textColor="@color/main"
+            android:backgroundTint="@color/white"
+            app:cornerRadius="1dp"/>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/user_recycler_layout"
+        android:layout_width="match_parent"
+        android:layout_below="@id/user_toggle_layout"
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/pending_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

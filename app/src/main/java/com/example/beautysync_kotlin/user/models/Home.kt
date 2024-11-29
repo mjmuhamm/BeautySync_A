@@ -1,7 +1,10 @@
 package com.example.beautysync_kotlin.user.models
 
 import android.net.Uri
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class ServiceItems(
     val itemType: String,
     val itemTitle: String,
@@ -20,4 +23,4 @@ data class ServiceItems(
     val itemRating: ArrayList<Number>,
     val hashtags: ArrayList<String>,
     val documentId: String
-)
+) : Parcelable
