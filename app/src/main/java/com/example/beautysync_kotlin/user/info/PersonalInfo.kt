@@ -231,22 +231,15 @@ class PersonalInfo : AppCompatActivity() {
 
 
 
-                        user!!.updateProfile(profileUpdates).addOnCompleteListener { task1 ->
+                        user!!.updateProfile(profileUpdates).addOnCompleteListener { _ ->
                             if (userImage != Uri.EMPTY) {
                                 profilePic = "yes"
                                 storage.reference.child("users/${FirebaseAuth.getInstance().currentUser!!.uid}/profileImage/${FirebaseAuth.getInstance().currentUser!!.uid}.png")
                                     .putFile(userImage!!)
-                            } else {
-                                profilePic = "no"
-                                val imageUri =
-                                    Uri.parse("android.resource://com.ruh.taiste/" + R.drawable.default_profile)
-                                storage.reference.child("users/${FirebaseAuth.getInstance().currentUser!!.uid}/profileImage/${FirebaseAuth.getInstance().currentUser!!.uid}.png")
-                                    .putFile(imageUri)
-
                             }
                         }
                         val data2: Map<String, Any> = hashMapOf(
-                            "chefOrUser" to "User",
+                            "beauticianOrUser" to "User",
                             "notificationToken" to "",
                             "notifications" to "",
                             "profilePic" to profilePic
@@ -277,7 +270,7 @@ class PersonalInfo : AppCompatActivity() {
     }
 
 
-    private fun stateFilter(state: String): String {
+    fun stateFilter(state: String): String {
         val stateAbbr: MutableList<String> = arrayListOf(
             "AL",
             "AK",
@@ -374,6 +367,7 @@ class PersonalInfo : AppCompatActivity() {
         return true
     }
 
+    @Deprecated("This method has been deprecated in favor of using the Activity Result API\n      which brings increased type safety via an {@link ActivityResultContract} and the prebuilt\n      contracts for common intents available in\n      {@link androidx.activity.result.contract.ActivityResultContracts}, provides hooks for\n      testing, and allow receiving results in separate, testable classes independent from your\n      activity. Use\n      {@link #registerForActivityResult(ActivityResultContract, ActivityResultCallback)}\n      with the appropriate {@link ActivityResultContract} and handling the result in the\n      {@link ActivityResultCallback#onActivityResult(Object) callback}.")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (resultCode) {

@@ -752,7 +752,7 @@
                 android:layout_gravity="end"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="20dp"
-                android:layout_marginBottom="30dp"
+                android:layout_marginBottom="100dp"
                 android:textSize="12sp"/>
 
         </LinearLayout>

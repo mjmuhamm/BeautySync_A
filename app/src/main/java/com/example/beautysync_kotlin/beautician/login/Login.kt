@@ -61,6 +61,7 @@ class Login : AppCompatActivity() {
                     }
                 }
             } else {
+                binding.progressBar.isVisible = false
                 Toast.makeText(this, "Error, please check your information and try again.", Toast.LENGTH_LONG).show()
             }
         }

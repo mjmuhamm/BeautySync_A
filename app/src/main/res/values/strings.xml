@@ -81,4 +81,11 @@
     <string name="nail_care">Nail Care</string>
     <string name="filter">Filter</string>
     <string name="checkout">Checkout</string>
+    <string name="banking">Banking</string>
+    <string name="x">X</string>
+    <string name="bank_name">Bank Name</string>
+    <string name="account_holder">Account Holder</string>
+    <string name="account_number">Account Number</string>
+    <string name="routing_number">Routing Number</string>
+    <string name="add">Add</string>
 </resources>

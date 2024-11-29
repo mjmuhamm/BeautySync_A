@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     id("com.google.gms.google-services")
+    id("kotlin-parcelize")
 }
 
 android {
@@ -56,7 +57,7 @@ dependencies {
     implementation(libs.firebase.storage.ktx)
     implementation(libs.firebase.messaging)
     implementation(libs.circleimageview)
-    implementation(libs.okhttp)
+    implementation(libs.okhttp.v4120)
     implementation(libs.logging.interceptor)
     implementation(platform(libs.okhttp.bom))
     implementation(libs.logging.interceptor)
