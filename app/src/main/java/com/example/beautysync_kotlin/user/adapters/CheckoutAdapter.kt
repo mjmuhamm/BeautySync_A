@@ -44,6 +44,10 @@ class CheckoutAdapter(private val context: Context, private var items: MutableLi
             notifyItemRemoved(position)
         }
 
+        holder.userImage.setOnClickListener {
+
+        }
+
     }
 
 

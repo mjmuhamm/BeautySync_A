@@ -70,7 +70,7 @@ class Me : Fragment() {
         _binding = FragmentMe2Binding.inflate(inflater, container, false)
         // Inflate the layout for this fragment
         binding.serviceRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-        meAdapter = MeAdapter(requireContext(), items, itemType)
+        meAdapter = MeAdapter(requireContext(), items, itemType, "no")
         binding.serviceRecyclerView.adapter = meAdapter
 
         loadItemInfo(itemType)

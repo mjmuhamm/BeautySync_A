@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.beautysync_kotlin.R
 import com.example.beautysync_kotlin.beautician.misc.ServiceItemAdd
+import com.example.beautysync_kotlin.both.misc.ItemDetail
 import com.example.beautysync_kotlin.databinding.HomePostBinding
 import com.example.beautysync_kotlin.databinding.ItemPostBinding
 import com.example.beautysync_kotlin.user.adapters.HomeAdapter
@@ -24,7 +25,7 @@ import com.google.firebase.storage.ktx.storage
 import okhttp3.OkHttpClient
 import kotlin.math.log
 
-class MeAdapter(private val context: Context, private var items: MutableList<ServiceItems>, private var itemType: String) : RecyclerView.Adapter<MeAdapter.ViewHolder>()  {
+class MeAdapter(private val context: Context, private var items: MutableList<ServiceItems>, private var itemType: String, private var guest: String) : RecyclerView.Adapter<MeAdapter.ViewHolder>()  {
 
 
     private val httpClient = OkHttpClient()
@@ -55,6 +56,12 @@ class MeAdapter(private val context: Context, private var items: MutableList<Ser
         holder.rating.text = "$rating"
         holder.itemPrice.text = "$${item.itemPrice}"
 
+        if (guest == "yes") {
+            holder.editItem.visibility = View.GONE
+        } else {
+            holder.editItem.visibility = View.VISIBLE
+        }
+
         holder.editItem.setOnClickListener {
             val intent = Intent(context, ServiceItemAdd::class.java)
             intent.putExtra("item_type", itemType)
@@ -63,12 +70,15 @@ class MeAdapter(private val context: Context, private var items: MutableList<Ser
             context.startActivity(intent)
         }
 
+        holder.itemImage.setOnClickListener {
+            val intent = Intent(context, ItemDetail::class.java)
+            intent.putExtra("item", item)
+            context.startActivity(intent)
+        }
 
+        holder.likeButton.setOnClickListener {
 
-
-
-
-
+        }
 
     }
 
@@ -122,8 +132,5 @@ class MeAdapter(private val context: Context, private var items: MutableList<Ser
                 Glide.with(context).load(itemUri).placeholder(R.drawable.default_profile).into(itemImage)
             }
         }
-
-
-
     }
 }

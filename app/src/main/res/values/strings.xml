@@ -144,4 +144,5 @@
     <string name="pay">Pay</string>
     <string name="click_here_to_view_detail">Click here to view detail</string>
     <string name="event_cost">Event Cost</string>
+    <string name="does_the_user_recommend">Does the user recommend?</string>
 </resources>

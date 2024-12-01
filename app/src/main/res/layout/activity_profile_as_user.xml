@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".user.fragments.Me">
-
+    tools:context=".both.misc.ProfileAsUser">
 
     <TextView
         android:id="@+id/no_items_text"
@@ -20,51 +19,25 @@
         android:id="@+id/progress_bar"
         android:layout_width="34dp"
         android:layout_height="34dp"
-        android:layout_centerInParent="true"
-        android:visibility="invisible" />
+        android:layout_centerInParent="true" />
 
     <RelativeLayout
         android:id="@+id/initial_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="14dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
         android:layout_marginBottom="10dp">
 
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginBottom="4dp"
-            android:layout_height="wrap_content">
-            <ImageView
-                android:id="@+id/notifications_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:contentDescription="@string/notifications"
-                android:src="@drawable/notifications" />
-
-            <ImageView
-                android:id="@+id/notifications_image"
-                android:layout_width="12dp"
-                android:layout_height="12dp"
-                android:visibility="gone"
-                android:layout_marginStart="19dp"
-                android:contentDescription="@string/notifications"
-                android:src="@drawable/circle" />
-
-        </RelativeLayout>
-
         <ImageView
-            android:id="@+id/settings_button"
+            android:id="@+id/back_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:contentDescription="@string/settings"
-            android:src="@drawable/settings" />
+            android:contentDescription="@string/back_arrow"
+            android:src="@drawable/arrow_back" />
 
         <TextView
             android:id="@+id/user_name"
@@ -73,8 +46,17 @@
             android:layout_centerInParent="true"
             android:textColor="@color/main"
             android:textSize="15sp"
-            android:textStyle="bold"
-            tools:ignore="RelativeOverlap" />
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/message_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:visibility="gone"
+            android:layout_alignParentEnd="true"
+            android:contentDescription="@string/back_arrow"
+            android:src="@drawable/mail" />
 
     </RelativeLayout>
 
@@ -101,12 +83,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="10dp"
+                android:layout_marginStart="5dp"
                 android:layout_marginEnd="20dp"
-                android:orientation="vertical"
-                tools:ignore="UselessParent">
-
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/passion"
@@ -119,122 +98,136 @@
 
 
                 <TextView
-                    android:id="@+id/location"
+                    android:id="@+id/user_location"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
+                    android:layout_marginTop="1dp"
                     android:textColor="@color/main"
                     android:textColorHighlight="@color/main"
                     android:textSize="13sp" />
 
             </LinearLayout>
 
-
         </RelativeLayout>
 
 
     </LinearLayout>
 
-
     <RelativeLayout
         android:id="@+id/toggle_layout"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_below="@id/profile_layout"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="5dp">
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:id="@+id/user_toggle_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            tools:ignore="UselessParent">
+            android:orientation="horizontal">
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/orders"
-                style="@style/TextAppearance.AppCompat.Display2"
+                android:id="@+id/button1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/secondary"
-                android:padding="4dp"
+                style="@style/TextAppearance.AppCompat.Display2"
                 android:text="@string/orders"
                 android:textAllCaps="false"
-                android:textColor="@color/white"
                 android:textSize="14sp"
-                app:cornerRadius="1dp" />
+                android:padding="4dp"
+                android:textColor="@color/white"
+                android:backgroundTint="@color/secondary"
+                app:cornerRadius="1dp"/>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/beauticians"
-                style="@style/TextAppearance.AppCompat.Display2"
+                android:id="@+id/button2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/white"
-                android:padding="4dp"
+                style="@style/TextAppearance.AppCompat.Display2"
                 android:text="@string/beauticians"
                 android:textAllCaps="false"
-                android:textColor="@color/main"
                 android:textSize="14sp"
-                app:cornerRadius="1dp" />
+                android:padding="4dp"
+                android:textColor="@color/main"
+                android:backgroundTint="@color/white"
+                app:cornerRadius="1dp"/>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/likes"
-                style="@style/TextAppearance.AppCompat.Display2"
+                android:id="@+id/button3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/white"
-                android:padding="4dp"
+                style="@style/TextAppearance.AppCompat.Display2"
                 android:text="@string/likes"
                 android:textAllCaps="false"
-                android:textColor="@color/main"
                 android:textSize="14sp"
-                app:cornerRadius="1dp" />
+                android:padding="4dp"
+                android:textColor="@color/main"
+                android:backgroundTint="@color/white"
+                app:cornerRadius="1dp"/>
 
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/reviews"
-                style="@style/TextAppearance.AppCompat.Display2"
+                android:id="@+id/button4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/white"
-                android:padding="4dp"
+                style="@style/TextAppearance.AppCompat.Display2"
                 android:text="@string/reviews"
+                android:padding="4dp"
                 android:textAllCaps="false"
-                android:textColor="@color/main"
                 android:textSize="14sp"
-                app:cornerRadius="1dp" />
+                android:textColor="@color/main"
+                android:backgroundTint="@color/white"
+                app:cornerRadius="1dp"/>
 
         </LinearLayout>
 
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/recycler_view"
+        android:id="@+id/recycler_views"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/toggle_layout">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/orders_and_likes_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="55dp"/>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/beauticians_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="55dp"/>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/reviews_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="55dp"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/likes_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="50dp"/>
 
 
-    </RelativeLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/beauticians_recycler_view"
+                android:layout_width="match_parent"
+                android:visibility="invisible"
+                android:layout_height="match_parent"/>
 
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/reviews_recycler_view"
+                android:layout_width="match_parent"
+                android:visibility="invisible"
+                android:layout_height="match_parent"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/items_recycler_view"
+                android:layout_width="match_parent"
+                android:visibility="invisible"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="50dp"/>
+
+            <GridView
+                android:id="@+id/content_view"
+                android:layout_width="match_parent"
+                android:visibility="invisible"
+                android:horizontalSpacing="4dp"
+                android:numColumns="3"
+                android:columnWidth="150dp"
+                android:verticalSpacing="4dp"
+                android:layout_height="match_parent"/>
+
+        </RelativeLayout>
 
 </RelativeLayout>
