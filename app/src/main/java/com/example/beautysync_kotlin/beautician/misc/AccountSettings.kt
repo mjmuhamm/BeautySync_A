@@ -80,6 +80,7 @@ class AccountSettings : AppCompatActivity() {
                             }
                         }
                     }
+                        db.collection("Beautician").document(FirebaseAuth.getInstance().currentUser!!.uid).delete()
                         db.collection("Usernames").document(FirebaseAuth.getInstance().currentUser!!.uid).delete()
                         storage.reference.child("beauticians/${FirebaseAuth.getInstance().currentUser!!.uid}").delete()
                         FirebaseAuth.getInstance().currentUser!!.delete()

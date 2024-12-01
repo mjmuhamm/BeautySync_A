@@ -160,7 +160,8 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/service_recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"/>
 
 
 

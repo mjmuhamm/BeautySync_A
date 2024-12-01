@@ -134,18 +134,6 @@ class MainActivity : AppCompatActivity() {
             }
             "home" -> {
                 b()
-                binding.navView.menu[0].setIcon(R.drawable.dashboard_filled).iconTintList = iconColorStatesMain
-                binding.navView.menu[1].setIcon(R.drawable.search).iconTintList = iconColorStatesGray
-                binding.navView.menu[2].setIcon(R.drawable.feed).iconTintList = iconColorStatesGray
-                binding.navView.menu[3].setIcon(R.drawable.orders).iconTintList = iconColorStatesGray
-                binding.navView.menu[4].setIcon(R.drawable.me).iconTintList = iconColorStatesGray
-
-                binding.navView.menu[0].isChecked = true
-                binding.navView.menu[1].isChecked = false
-                binding.navView.menu[2].isChecked = false
-                binding.navView.menu[3].isChecked = false
-                binding.navView.menu[4].isChecked = false
-
                 moveToFragment(Dashboard())
             }
             "orders" -> {

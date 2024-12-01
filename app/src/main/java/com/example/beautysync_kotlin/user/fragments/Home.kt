@@ -1,6 +1,7 @@
 package com.example.beautysync_kotlin.user.fragments
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,10 +9,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.beautysync_kotlin.R
 import com.example.beautysync_kotlin.databinding.FragmentHomeBinding
 import com.example.beautysync_kotlin.user.adapters.HomeAdapter
+import com.example.beautysync_kotlin.user.misc.Checkout
 import com.example.beautysync_kotlin.user.models.ServiceItems
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
@@ -44,6 +47,9 @@ class Home : Fragment() {
     private var itemType = "hairCareItems"
     private var items: MutableList<ServiceItems> = arrayListOf()
 
+    private var cart : MutableList<String> = arrayListOf()
+    private var totalPrice = 0.0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -65,6 +71,8 @@ class Home : Fragment() {
         homeAdapter = HomeAdapter(requireContext(), items)
         binding.serviceRecyclerView.adapter = homeAdapter
         loadItems(itemType)
+        loadCart()
+
 
         binding.hairCare.setOnClickListener {
             itemType = "hairCareItems"
@@ -97,6 +105,11 @@ class Home : Fragment() {
             binding.skinCare.setTextColor(ContextCompat.getColor(requireContext(), R.color.main))
             binding.nailCare.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.secondary))
             binding.nailCare.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+        }
+
+        binding.checkoutButton.setOnClickListener {
+            val intent = Intent(requireContext(), Checkout::class.java)
+            startActivity(intent)
         }
 
 
@@ -154,6 +167,7 @@ class Home : Fragment() {
                         items.add(x)
                         homeAdapter.submitList(items)
                         homeAdapter.notifyItemInserted(0)
+                        binding.progressBar.isVisible = false
                     } else {
                         val index =
                             items.indexOfFirst { it.documentId == doc.id }
@@ -163,6 +177,35 @@ class Home : Fragment() {
                             homeAdapter.notifyItemInserted(items.size - 1)
                         }
                     }
+                }
+            }
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun loadCart() {
+        db.collection("User").document(auth.currentUser!!.uid).collection("Cart").get().addOnSuccessListener { documents ->
+            if (documents != null) {
+                for (doc in documents.documents) {
+                    val data = doc.data
+
+                    val itemPrice = data?.get("itemPrice") as String
+
+                    if (cart.size == 0) {
+                        this.cart.add(doc.id)
+                        this.totalPrice += itemPrice.toDouble()
+                        val num = "%.2f".format(totalPrice)
+                        binding.totalPrice.text = "$$num"
+                    } else {
+                        val index = cart.indexOfFirst { it == doc.id }
+                        if (index == -1) {
+                            cart.add(doc.id)
+                            totalPrice += itemPrice.toDouble()
+                            val num = "%.2f".format(totalPrice)
+                            binding.totalPrice.text = "$$num"
+                        }
+                    }
+
                 }
             }
         }

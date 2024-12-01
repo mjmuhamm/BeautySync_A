@@ -1,11 +1,16 @@
 package com.example.beautysync_kotlin.user.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.beautysync_kotlin.R
+import com.example.beautysync_kotlin.databinding.ActivityAccountSettings2Binding
+import com.example.beautysync_kotlin.databinding.FragmentMe2Binding
+import com.example.beautysync_kotlin.databinding.FragmentMeBinding
+import com.example.beautysync_kotlin.user.misc.AccountSettings
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -22,6 +27,9 @@ class Me : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    private var _binding : FragmentMeBinding? = null
+    private val binding get() = _binding!!
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -34,8 +42,15 @@ class Me : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        _binding = FragmentMeBinding.inflate(inflater, container, false)
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_me, container, false)
+
+        binding.settingsButton.setOnClickListener {
+            val intent = Intent(requireContext(), AccountSettings::class.java)
+            startActivity(intent)
+
+        }
+        return binding.root
     }
 
     companion object {

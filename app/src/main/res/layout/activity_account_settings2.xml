@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".beautician.misc.AccountSettings">
+    tools:context=".user.misc.AccountSettings">
 
     <RelativeLayout
         android:id="@+id/initial_layout"
@@ -68,32 +68,6 @@
                 android:text="@string/personal_info"
                 android:textSize="15sp"
                 app:drawableStartCompat="@drawable/edit" />
-
-
-            <TextView
-                android:id="@+id/business_info"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="9dp"
-                android:drawablePadding="5dp"
-                android:text="@string/business_info"
-                android:textSize="15sp"
-                app:drawableStartCompat="@drawable/edit" />
-
-
-            <TextView
-                android:id="@+id/banking_info"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="9dp"
-                android:drawablePadding="5dp"
-                android:text="@string/banking"
-                android:textSize="15sp"
-                app:drawableStartCompat="@drawable/edit" />
-
-
 
 
             <TextView

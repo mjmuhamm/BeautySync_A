@@ -44,7 +44,7 @@ class MeAdapter(private val context: Context, private var items: MutableList<Ser
         holder.itemDescription.text = item.itemDescription
         holder.itemLikes.text = "${item.liked.size}"
         holder.itemOrders.text = "${item.itemOrders}"
-        var rating = 0
+        var rating = 0.0
         for (i in 0 until item.itemRating.size) {
             rating += item.itemRating[i].toString().toInt()
 
