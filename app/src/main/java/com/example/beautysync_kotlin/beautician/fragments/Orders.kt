@@ -67,7 +67,7 @@ class Orders : Fragment() {
             item = "pending"
 
             binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-            ordersAdapter = OrdersAdapter(requireContext(), orders, "User", "pending")
+            ordersAdapter = OrdersAdapter(requireContext(), orders, "Beautician", "pending")
             binding.recyclerView.adapter = ordersAdapter
 
             loadOrders(item)
@@ -84,7 +84,7 @@ class Orders : Fragment() {
             item = "scheduled"
 
             binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-            ordersAdapter = OrdersAdapter(requireContext(), orders, "User", "scheduled")
+            ordersAdapter = OrdersAdapter(requireContext(), orders, "Beautician", "scheduled")
             binding.recyclerView.adapter = ordersAdapter
 
             loadOrders(item)
@@ -101,7 +101,7 @@ class Orders : Fragment() {
             item = "complete"
 
             binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-            ordersAdapter = OrdersAdapter(requireContext(), orders, "User", "complete")
+            ordersAdapter = OrdersAdapter(requireContext(), orders, "Beautician", "complete")
             binding.recyclerView.adapter = ordersAdapter
 
             loadOrders(item)
