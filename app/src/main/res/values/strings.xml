@@ -102,6 +102,7 @@
     <string name="scheduled">Scheduled</string>
     <string name="complete">Complete</string>
     <string name="please_note_1">*Please note that you cannot cancel or change the date of a \'scheduled\' service item w/ less than two hours before the event. Additionally, all payouts will be awarded one hour after each event.*</string>
+    <string name="please_note_2">*Please note that you cannot cancel or change the date of a \'scheduled\' service item w/ less than two hours before the event.*</string>
     <string name="edit_item">Edit Item</string>
     <string name="item_title">Item Title</string>
     <string name="add_image">Add Image</string>
@@ -145,4 +146,6 @@
     <string name="click_here_to_view_detail">Click here to view detail</string>
     <string name="event_cost">Event Cost</string>
     <string name="does_the_user_recommend">Does the user recommend?</string>
+    <string name="messages_for_scheduling">Messages For Scheduling</string>
+    <string name="messages">Messages</string>
 </resources>

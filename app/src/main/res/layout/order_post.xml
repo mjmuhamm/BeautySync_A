@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="5dp"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/initial_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+
+        <TextView
+            android:id="@+id/item_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="3dp"
+            android:layout_marginBottom="3dp"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/main"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            tools:ignore="RelativeOverlap" />
+
+    </RelativeLayout>
+
+
+    <View
+        android:id="@+id/initial_view"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_below="@id/initial_layout"
+        android:layout_marginTop="7dp"
+        android:layout_marginBottom="7dp"
+        android:background="@color/gray300"/>
+
+    <RelativeLayout
+        android:id="@+id/info_layout"
+        android:layout_width="match_parent"
+        android:layout_below="@id/initial_view"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/main"
+            android:layout_marginStart="3dp"
+            android:textStyle="bold"
+            android:textSize="13sp"/>
+
+        <TextView
+            android:id="@+id/take_home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:textColor="@color/main"
+            android:layout_marginEnd="3dp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            android:textSize="12sp"/>
+
+
+        <TextView
+            android:id="@+id/service_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/user"
+            android:layout_marginTop="7dp"
+            android:layout_marginStart="3dp"
+            android:textColor="@color/main"
+            android:textStyle="bold"
+            android:textSize="13sp"/>
+
+        <TextView
+            android:id="@+id/location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/service_date"
+            android:layout_marginTop="7dp"
+            android:layout_marginStart="3dp"
+            android:textColor="@color/main"
+            android:textSize="13sp"/>
+
+        <TextView
+            android:id="@+id/notes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/location"
+            android:layout_marginTop="7dp"
+            android:layout_marginStart="3dp"
+            android:textColor="@color/main"
+            android:textSize="13sp"/>
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/message_for_scheduling_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/info_layout">
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/message_for_scheduling"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:text="@string/messages_for_scheduling"
+        android:textSize="12sp"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/main"
+        android:textAllCaps="false"
+        app:cornerRadius="1dp"
+        android:backgroundTint="@color/white"
+        android:padding="4dp"/>
+
+        <ImageView
+            android:id="@+id/message_for_scheduling_notification_image"
+            android:layout_width="15sp"
+            android:layout_height="15sp"
+            android:visibility="gone"
+            android:contentDescription="@string/notifications"
+            android:src="@drawable/circle"
+            android:layout_marginStart="-1sp" />
+
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_below="@id/message_for_scheduling_layout"
+        android:layout_marginEnd="5dp"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/cancel_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:backgroundTint="@color/white"
+            android:padding="4dp"
+            android:text="@string/cancel"
+            android:textAllCaps="false"
+            android:textColor="@color/red600"
+            app:cornerRadius="1dp" />
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/messages_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:backgroundTint="@color/white"
+            android:padding="4dp"
+            android:text="@string/messages"
+            android:textAllCaps="false"
+            android:textColor="@color/main"
+            app:cornerRadius="1dp"
+            tools:ignore="RelativeOverlap" />
+
+            <ImageView
+                android:id="@+id/messages_notification_image"
+                android:layout_width="15sp"
+                android:layout_height="15sp"
+                android:visibility="gone"
+                android:contentDescription="@string/notifications"
+                android:src="@drawable/circle" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+
+
+
+
+
+</RelativeLayout>

@@ -1,6 +1,7 @@
 package com.example.beautysync_kotlin.both.misc
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
@@ -12,6 +13,7 @@ import com.denzcoskun.imageslider.constants.ScaleTypes
 import com.denzcoskun.imageslider.models.SlideModel
 import com.example.beautysync_kotlin.R
 import com.example.beautysync_kotlin.databinding.ActivityItemDetailBinding
+import com.example.beautysync_kotlin.user.misc.OrderDetails
 import com.example.beautysync_kotlin.user.models.ServiceItems
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
@@ -46,6 +48,9 @@ class ItemDetail : AppCompatActivity() {
         }
 
         binding.orderButton.setOnClickListener {
+            val intent = Intent(this, OrderDetails::class.java)
+            intent.putExtra("item", item)
+            startActivity(intent)
 
         }
     }

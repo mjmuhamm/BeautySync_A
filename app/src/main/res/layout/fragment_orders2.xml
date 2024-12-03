@@ -29,7 +29,7 @@
         android:textSize="11sp"
         android:textColor="@color/gray300"
         android:layout_centerHorizontal="true"
-        android:layout_margin="10dp"
+        android:layout_margin="20dp"
         android:text="@string/please_note_1"
         android:textAlignment="center"/>
 
@@ -92,7 +92,7 @@
         android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/pending_recycler_view"
+            android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 

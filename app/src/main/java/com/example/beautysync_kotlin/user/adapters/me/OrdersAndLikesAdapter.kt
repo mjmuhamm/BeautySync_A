@@ -13,6 +13,7 @@ import com.example.beautysync_kotlin.R
 import com.example.beautysync_kotlin.both.misc.ItemDetail
 import com.example.beautysync_kotlin.both.misc.ProfileAsUser
 import com.example.beautysync_kotlin.databinding.UserItemPostBinding
+import com.example.beautysync_kotlin.user.misc.OrderDetails
 import com.example.beautysync_kotlin.user.models.ServiceItems
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
@@ -147,6 +148,12 @@ class OrdersAndLikesAdapter(private val context: Context, private var items: Mut
 
         holder.itemImage.setOnClickListener {
             val intent = Intent(context, ItemDetail::class.java)
+            intent.putExtra("item", item)
+            context.startActivity(intent)
+        }
+
+        holder.orderButton.setOnClickListener {
+            val intent = Intent(context, OrderDetails::class.java)
             intent.putExtra("item", item)
             context.startActivity(intent)
         }

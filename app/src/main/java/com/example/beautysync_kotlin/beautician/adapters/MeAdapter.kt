@@ -18,6 +18,7 @@ import com.example.beautysync_kotlin.both.misc.ItemDetail
 import com.example.beautysync_kotlin.databinding.HomePostBinding
 import com.example.beautysync_kotlin.databinding.ItemPostBinding
 import com.example.beautysync_kotlin.user.adapters.HomeAdapter
+import com.example.beautysync_kotlin.user.misc.OrderDetails
 import com.example.beautysync_kotlin.user.models.ServiceItems
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -80,6 +81,13 @@ class MeAdapter(private val context: Context, private var items: MutableList<Ser
 
         }
 
+        holder.orderButton.setOnClickListener {
+            if (guest == "yes") {
+                val intent = Intent(context, OrderDetails::class.java)
+                intent.putExtra("item", item)
+                context.startActivity(intent)
+            }
+        }
     }
 
 

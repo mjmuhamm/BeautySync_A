@@ -5,7 +5,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.beautysync_kotlin.R
+import com.example.beautysync_kotlin.both.adapters.OrdersAdapter
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import com.example.beautysync_kotlin.both.models.Orders
+import com.example.beautysync_kotlin.databinding.FragmentOrders2Binding
+import com.example.beautysync_kotlin.databinding.FragmentOrdersBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -22,6 +31,17 @@ class Orders : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    private var _binding : FragmentOrders2Binding? = null
+    private val binding get() = _binding!!
+
+    private val db = Firebase.firestore
+    private val auth = FirebaseAuth.getInstance()
+
+    private lateinit var ordersAdapter: OrdersAdapter
+    private var orders : MutableList<Orders> = arrayListOf()
+
+    private var item = "pending"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -34,8 +54,67 @@ class Orders : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        _binding = FragmentOrders2Binding.inflate(inflater, container, false)
+
+        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        ordersAdapter = OrdersAdapter(requireContext(), orders, "Beautician", "pending")
+        binding.recyclerView.adapter = ordersAdapter
+
+
+        loadOrders(item)
+
+        binding.pending.setOnClickListener {
+            item = "pending"
+
+            binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+            ordersAdapter = OrdersAdapter(requireContext(), orders, "User", "pending")
+            binding.recyclerView.adapter = ordersAdapter
+
+            loadOrders(item)
+
+            binding.pending.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.secondary))
+            binding.pending.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+            binding.scheduled.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.white))
+            binding.scheduled.setTextColor(ContextCompat.getColor(requireContext(), R.color.main))
+            binding.complete.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.white))
+            binding.complete.setTextColor(ContextCompat.getColor(requireContext(), R.color.main))
+        }
+
+        binding.scheduled.setOnClickListener {
+            item = "scheduled"
+
+            binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+            ordersAdapter = OrdersAdapter(requireContext(), orders, "User", "scheduled")
+            binding.recyclerView.adapter = ordersAdapter
+
+            loadOrders(item)
+
+            binding.pending.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.white))
+            binding.pending.setTextColor(ContextCompat.getColor(requireContext(), R.color.main))
+            binding.scheduled.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.secondary))
+            binding.scheduled.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+            binding.complete.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.white))
+            binding.complete.setTextColor(ContextCompat.getColor(requireContext(), R.color.main))
+        }
+
+        binding.complete.setOnClickListener {
+            item = "complete"
+
+            binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+            ordersAdapter = OrdersAdapter(requireContext(), orders, "User", "complete")
+            binding.recyclerView.adapter = ordersAdapter
+
+            loadOrders(item)
+
+            binding.pending.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.white))
+            binding.pending.setTextColor(ContextCompat.getColor(requireContext(), R.color.main))
+            binding.scheduled.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.white))
+            binding.scheduled.setTextColor(ContextCompat.getColor(requireContext(), R.color.main))
+            binding.complete.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.secondary))
+            binding.complete.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+        }
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_orders2, container, false)
+        return binding.root
     }
 
     companion object {
@@ -56,5 +135,86 @@ class Orders : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    private fun loadOrders(item: String) {
+        db.collection("Beautician").document(auth.currentUser!!.uid).collection("Orders").get().addOnSuccessListener { documents ->
+            if (documents != null) {
+                for (doc in documents.documents) {
+                    val data = doc.data
+
+                    val itemType = data?.get("itemType") as String
+                    val itemTitle = data["itemTitle"] as String
+                    val itemDescription = data["itemDescription"] as String
+                    val itemPrice = data["itemPrice"] as String
+                    val imageCount = data["imageCount"] as Number
+                    val beauticianUsername = data["beauticianUsername"] as String
+                    val beauticianPassion = data["beauticianPassion"] as String
+                    val beauticianCity = data["beauticianCity"] as String
+                    val beauticianState = data["beauticianState"] as String
+                    val beauticianImageId = data["beauticianImageId"] as String
+                    val itemOrders = data["itemOrders"] as Number
+                    val itemRating = data["itemRating"] as ArrayList<Number>
+                    val hashtags = data["hashtags"] as ArrayList<String>
+                    val liked = data["liked"] as ArrayList<String>
+                    val streetAddress = data["streetAddress"] as String
+                    val zipCode = data["zipCode"] as String
+                    val eventDay = data["eventDay"] as String
+                    val eventTime = data["eventTime"] as String
+                    val notesToBeautician = data["notesToBeautician"] as String
+                    val userImageId = data["userImageId"] as String
+                    val status = data["status"] as String
+                    val itemId = data["itemId"] as String
+                    val userName = data["userName"] as String
+                    val notifications = data["notifications"] as String
+
+                    if (status == item) {
+                        val x = Orders(
+                            itemType,
+                            itemTitle,
+                            itemDescription,
+                            itemPrice,
+                            imageCount,
+                            beauticianUsername,
+                            beauticianPassion,
+                            beauticianCity,
+                            beauticianState,
+                            beauticianImageId,
+                            liked,
+                            itemOrders,
+                            itemRating,
+                            hashtags,
+                            doc.id,
+                            eventDay,
+                            eventTime,
+                            streetAddress,
+                            zipCode,
+                            notesToBeautician,
+                            userImageId,
+                            userName,
+                            status,
+                            notifications,
+                            itemId
+                        )
+
+                        if (orders.size == 0) {
+                            orders.add(x)
+                            ordersAdapter.submitList(orders)
+                            ordersAdapter.notifyItemInserted(0)
+                        } else {
+                            val index =
+                                orders.indexOfFirst { it.documentId == doc.id }
+                            if (index == -1) {
+                                orders.add(x)
+                                ordersAdapter.submitList(orders)
+                                ordersAdapter.notifyItemInserted(orders.size - 1)
+                            }
+                        }
+                    }
+
+                }
+            }
+        }
     }
 }
