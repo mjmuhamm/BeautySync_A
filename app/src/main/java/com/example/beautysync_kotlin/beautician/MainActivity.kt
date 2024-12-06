@@ -8,18 +8,15 @@ import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import com.example.beautysync_kotlin.R
 import com.example.beautysync_kotlin.beautician.fragments.Dashboard
 import com.example.beautysync_kotlin.beautician.fragments.Me
 import com.example.beautysync_kotlin.beautician.fragments.Orders
-import com.example.beautysync_kotlin.both.Feed
-import com.example.beautysync_kotlin.both.Search
+import com.example.beautysync_kotlin.both.fragments.Feed
+import com.example.beautysync_kotlin.both.fragments.Search
 import com.example.beautysync_kotlin.databinding.ActivityMain2Binding
-import com.example.beautysync_kotlin.user.fragments.Home
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMain2Binding

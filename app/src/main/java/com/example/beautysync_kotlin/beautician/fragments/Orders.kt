@@ -1,11 +1,13 @@
 package com.example.beautysync_kotlin.beautician.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.beautysync_kotlin.R
 import com.example.beautysync_kotlin.both.adapters.OrdersAdapter
@@ -137,9 +139,14 @@ class Orders : Fragment() {
             }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     @Suppress("UNCHECKED_CAST")
     private fun loadOrders(item: String) {
-        db.collection("Beautician").document(auth.currentUser!!.uid).collection("Orders").get().addOnSuccessListener { documents ->
+        orders.clear()
+        ordersAdapter.submitList(orders)
+        ordersAdapter.notifyDataSetChanged()
+
+        db.collection("Beautician").document(auth.currentUser!!.uid).collection("Orders").addSnapshotListener { documents, _ ->
             if (documents != null) {
                 for (doc in documents.documents) {
                     val data = doc.data
@@ -168,6 +175,8 @@ class Orders : Fragment() {
                     val itemId = data["itemId"] as String
                     val userName = data["userName"] as String
                     val notifications = data["notifications"] as String
+
+                    binding.progressBar.isVisible = false
 
                     if (status == item) {
                         val x = Orders(

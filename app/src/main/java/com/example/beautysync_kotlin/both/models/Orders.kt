@@ -1,5 +1,9 @@
 package com.example.beautysync_kotlin.both.models
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class Orders(
     val itemType: String,
     val itemTitle: String,
@@ -26,4 +30,4 @@ data class Orders(
     val status: String,
     val notifications: String,
     val itemId: String
-)
+) : Parcelable

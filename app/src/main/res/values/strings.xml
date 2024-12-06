@@ -148,4 +148,5 @@
     <string name="does_the_user_recommend">Does the user recommend?</string>
     <string name="messages_for_scheduling">Messages For Scheduling</string>
     <string name="messages">Messages</string>
+    <string name="send_message">Send Message</string>
 </resources>

@@ -2,11 +2,13 @@ package com.example.beautysync_kotlin.both.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
+import com.example.beautysync_kotlin.both.misc.Messages
 import com.example.beautysync_kotlin.databinding.OrderPostBinding
 import com.example.beautysync_kotlin.both.models.Orders
 import com.google.firebase.firestore.ktx.firestore
@@ -47,6 +49,24 @@ class OrdersAdapter(private val context: Context, private var orders: MutableLis
             }  else if (status == "scheduled") {
                 holder.messagesForScheduling.visibility = View.GONE
                 holder.messageButton.text = "Messages For Scheduling"
+            }
+        }
+
+        holder.messagesForScheduling.setOnClickListener {
+            val intent = Intent(context, Messages::class.java)
+            intent.putExtra("item", item)
+            intent.putExtra("beautician_or_user", beauticianOrUser)
+            context.startActivity(intent)
+        }
+
+        holder.messageButton.setOnClickListener {
+            if (holder.messageButton.text == "Messages") {
+                val intent = Intent(context, Messages::class.java)
+                intent.putExtra("item", item)
+                intent.putExtra("beautician_or_user", beauticianOrUser)
+                context.startActivity(intent)
+            } else {
+                //Accept
             }
         }
 
@@ -97,13 +117,13 @@ class OrdersAdapter(private val context: Context, private var orders: MutableLis
 
             when (item.itemType) {
                 "hairCareItems" -> {
-                    itemType.text = "Hair Care Item"
+                    itemType.text = "Hair Care Item | ${item.itemTitle}"
                 }
                 "skinCareItems" -> {
-                    itemType.text = "Skin Care Item"
+                    itemType.text = "Skin Care Item | ${item.itemTitle}"
                 }
                 "nailCareItems" -> {
-                    itemType.text = "Nail Care Item"
+                    itemType.text = "Nail Care Item | ${item.itemTitle}"
                 }
             }
 

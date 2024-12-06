@@ -85,9 +85,6 @@ class OrderDetails : AppCompatActivity() {
                 }
 
                 eventDay = "$newMonth-$newDay-$year"
-            Log.d(TAG, "onCreate: event day 1 ${day.monthDayString}")
-            Log.d(TAG, "onCreate: event day 2 $month")
-
 
             binding.timePickerLayout.visibility = View.VISIBLE
             binding.dateForTimePicker.text = userDate
