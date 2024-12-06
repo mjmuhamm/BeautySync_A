@@ -32,8 +32,12 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/type_of_service_layout"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                android:layout_width="370dp"
+                android:layout_width="300dp"
                 android:layout_height="55dp"
+                app:boxCornerRadiusBottomEnd="1dp"
+                app:boxCornerRadiusBottomStart="1dp"
+                app:boxCornerRadiusTopEnd="1dp"
+                app:boxCornerRadiusTopStart="1dp"
                 android:hint="@string/type_of_service">
 
                 <AutoCompleteTextView
@@ -50,8 +54,12 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/menu_item_layout"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                android:layout_width="370dp"
+                android:layout_width="300dp"
                 android:layout_height="55dp"
+                app:boxCornerRadiusBottomEnd="1dp"
+                app:boxCornerRadiusBottomStart="1dp"
+                app:boxCornerRadiusTopEnd="1dp"
+                app:boxCornerRadiusTopStart="1dp"
                 android:layout_marginTop="7dp"
                 android:hint="@string/item">
 
