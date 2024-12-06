@@ -1,6 +1,7 @@
 package com.example.beautysync_kotlin.both.misc
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,6 +11,7 @@ import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.TimePicker
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -23,6 +25,7 @@ import com.aminography.primecalendar.civil.CivilCalendar
 import com.aminography.primedatepicker.picker.PrimeDatePicker
 import com.aminography.primedatepicker.picker.callback.SingleDayPickCallback
 import com.example.beautysync_kotlin.R
+import com.example.beautysync_kotlin.beautician.MainActivity
 import com.example.beautysync_kotlin.both.adapters.MessageAdapter
 import com.example.beautysync_kotlin.both.models.Messages
 import com.example.beautysync_kotlin.both.models.Orders
@@ -192,8 +195,12 @@ class Messages : AppCompatActivity() {
         }
 
         submitDateButton.setOnClickListener {
-            submitInfo()
-            bottomSheetDialog.dismiss()
+            if (eventDay == "") {
+                Toast.makeText(this, "Please select a date.", Toast.LENGTH_LONG).show()
+            } else {
+                submitInfo()
+                bottomSheetDialog.dismiss()
+            }
         }
 
         hideSystemUI()
@@ -266,6 +273,8 @@ class Messages : AppCompatActivity() {
 
     @SuppressLint("SetTextI18n")
     private fun submitInfo() {
+        val intent = Intent(this, MainActivity::class.java)
+        intent.putExtra("where_to", "orders")
         val data : Map<String, Any> = hashMapOf(
             "date" to sdf.format(Date()),
             "message" to "The beautician has changed the service date to $eventDay $eventTime.",
@@ -277,5 +286,7 @@ class Messages : AppCompatActivity() {
         db.collection("User").document(item!!.userImageId).collection("Orders").document(item!!.documentId).update(data1)
         db.collection("Beautician").document(item!!.beauticianImageId).collection("Orders").document(item!!.documentId).update(data2)
         binding.serviceDate.text = "Service Date: $eventDay $eventTime"
+        startActivity(intent)
+        finish()
     }
 }
