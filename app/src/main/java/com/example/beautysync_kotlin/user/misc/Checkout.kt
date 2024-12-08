@@ -46,7 +46,7 @@ class Checkout : AppCompatActivity(), ClickListener {
 
     private lateinit var checkoutAdapter: CheckoutAdapter
 
-    private val backEndUrl = "https://beautysync-stripeserver.onrender.com/create-payment-intent"
+    private val backEndUrl = "http://beautysync-stripeserver.onrender.com/create-payment-intent"
     private val httpClient = OkHttpClient()
     private val mHandler: Handler = Handler(Looper.getMainLooper())
 
@@ -315,7 +315,8 @@ class Checkout : AppCompatActivity(), ClickListener {
                 "itemId" to items[i].itemId,
                 "userName" to this.userName,
                 "date" to currentDate,
-                "notifications" to ""
+                "notifications" to "",
+                "cancelled" to "",
             )
 
             val data1: Map<String, Any> = hashMapOf(
@@ -344,11 +345,12 @@ class Checkout : AppCompatActivity(), ClickListener {
                 "userName" to this.userName,
                 "date" to currentDate,
                 "notifications" to "",
-                "paymentId" to this.paymentId
+                "paymentId" to this.paymentId,
+                "cancelled" to ""
             )
 
             db.collection("User").document(auth.currentUser!!.uid).collection("Orders").document(documentId).set(data)
-            db.collection("Beautician").document(auth.currentUser!!.uid).collection("Orders").document(documentId).set(data)
+            db.collection("Beautician").document(items[i].beauticianImageId).collection("Orders").document(documentId).set(data)
             db.collection("Orders").document(documentId).set(data1)
 
             db.collection(items[i].itemType).document(items[i].itemId).get().addOnSuccessListener { document ->

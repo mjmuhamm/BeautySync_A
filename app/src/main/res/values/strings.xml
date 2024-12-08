@@ -149,4 +149,9 @@
     <string name="messages_for_scheduling">Messages For Scheduling</string>
     <string name="messages">Messages</string>
     <string name="send_message">Send Message</string>
+    <string name="user_review">User Review</string>
+    <string name="did_this_experience_meet_your_expectation">Did this experience meet your expectation?</string>
+    <string name="how_was_the_quality_of_the_service">How was the quality of the service?</string>
+    <string name="what_would_you_rate_this_beautician">What would you rate this beautician?</string>
+    <string name="any_thoughts_you_d_like_to_share_with_the_beautician">Any thoughts you\'d like to share with the beautician?</string>
 </resources>

@@ -44,13 +44,13 @@ class Login : AppCompatActivity() {
     private fun login() {
         binding.progressBar.isVisible = true
         val intent = Intent(this, MainActivity::class.java)
+        intent.putExtra("where_to", "home")
         auth.signInWithEmailAndPassword(binding.email.text.toString(), binding.password.text.toString()).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 val auth = auth.currentUser!!
                 db.collection("Beautician").document(auth.uid).get().addOnSuccessListener { document ->
                     if (document != null) {
                         val data = document.data
-
                         if (data != null) {
                             startActivity(intent)
                             finish()

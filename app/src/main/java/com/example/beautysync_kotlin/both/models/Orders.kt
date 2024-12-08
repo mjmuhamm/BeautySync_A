@@ -29,5 +29,6 @@ data class Orders(
     val userName: String,
     val status: String,
     val notifications: String,
-    val itemId: String
+    val itemId: String,
+    val cancelled: String
 ) : Parcelable

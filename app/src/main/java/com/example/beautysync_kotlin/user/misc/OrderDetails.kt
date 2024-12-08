@@ -96,6 +96,7 @@ class OrderDetails : AppCompatActivity() {
             binding.notesToBeautician.isVisible = false
             binding.addItemLayout.isVisible = false
             binding.clearButton.isVisible = false
+            binding.subjectToChange.isVisible = false
         }
 
         val today = CivilCalendar()
@@ -142,6 +143,7 @@ class OrderDetails : AppCompatActivity() {
                 binding.notesToBeautician.isVisible = true
                 binding.addItemLayout.isVisible = true
                 binding.datePickerButton.isEnabled = false
+                binding.subjectToChange.isVisible = true
 
                 binding.datePickerText.text = "${binding.dateForTimePicker.text} $eventTime"
 

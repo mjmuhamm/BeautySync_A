@@ -65,6 +65,7 @@ class MessageAdapter(private val context: Context, private var messages: Mutable
             if (beauticianOrUser == "User") {
                 Glide.with(context).load(userImage).placeholder(R.drawable.default_profile)
                     .into(holder.homeUserImage)
+
             } else {
                 Glide.with(context).load(beauticianImage).placeholder(R.drawable.default_profile)
                     .into(holder.homeUserImage)

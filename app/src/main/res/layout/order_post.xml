@@ -96,7 +96,24 @@
             android:textSize="13sp"/>
 
 
+        <TextView
+            android:id="@+id/cancelled_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="3dp"
+            android:layout_marginBottom="3dp"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/red400"
+            android:layout_below="@id/location"
+            android:layout_centerHorizontal="true"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:textSize="14sp"
+            tools:ignore="RelativeOverlap" />
+
+
     </RelativeLayout>
+
 
     <LinearLayout
         android:id="@+id/message_for_scheduling_layout"

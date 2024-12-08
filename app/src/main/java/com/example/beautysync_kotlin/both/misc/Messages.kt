@@ -95,8 +95,10 @@ class Messages : AppCompatActivity() {
             loadInfo()
             if (beauticianOrUser == "User") {
                 binding.user.text = "Beautician: ${item!!.beauticianUsername}"
+                binding.changeDateButton.isVisible = false
             } else {
                 binding.user.text = "User: @${item!!.userName}"
+                binding.changeDateButton.isVisible = true
             }
             binding.serviceDate.text = "Service Date: ${item!!.eventDay} ${item!!.eventTime}"
         }
@@ -209,7 +211,7 @@ class Messages : AppCompatActivity() {
 
     }
 
-    fun hideSystemUI() {
+    private fun hideSystemUI() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         WindowInsetsControllerCompat(window, findViewById(android.R.id.content)).let { controller ->
             controller.hide(WindowInsetsCompat.Type.systemBars())
@@ -289,4 +291,6 @@ class Messages : AppCompatActivity() {
         startActivity(intent)
         finish()
     }
+
+
 }
