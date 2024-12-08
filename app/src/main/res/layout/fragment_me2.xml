@@ -256,6 +256,16 @@
             android:layout_height="match_parent"
             android:layout_marginBottom="55dp"/>
 
+        <GridView
+            android:id="@+id/content_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:columnWidth="150dp"
+            android:horizontalSpacing="4dp"
+            android:numColumns="3"
+            android:verticalSpacing="4dp"
+            android:visibility="invisible" />
+
 
     </RelativeLayout>
 

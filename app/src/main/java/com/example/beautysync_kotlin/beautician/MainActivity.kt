@@ -137,6 +137,10 @@ class MainActivity : AppCompatActivity() {
                 b()
                 moveToFragment(Orders())
             }
+            "me" -> {
+                b()
+                moveToFragment(Me())
+            }
         }
     }
 

@@ -39,6 +39,7 @@ import com.stripe.android.paymentsheet.PaymentSheetResult
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.UUID
+import java.util.concurrent.TimeUnit
 
 private const val TAG = "Checkout"
 class Checkout : AppCompatActivity(), ClickListener {
@@ -167,13 +168,19 @@ class Checkout : AppCompatActivity(), ClickListener {
             .add("amount", cost)
             .build()
 
+        val client = OkHttpClient.Builder()
+            .connectTimeout(20, TimeUnit.SECONDS) // Connect timeout
+            .readTimeout(20, TimeUnit.SECONDS) // Read timeout
+            .writeTimeout(20, TimeUnit.SECONDS) // Write timeout
+            .build()
+
         val request = Request.Builder()
             .url(backEndUrl)
             .addHeader("Content-Type", "application/json; charset=utf-8")
             .post(body)
             .build()
 
-        httpClient.newCall(request)
+        client.newCall(request)
             .enqueue(object: Callback {
                 override fun onFailure(call: Call, e: IOException) {
                     displayAlert("Error: $e")

@@ -13,12 +13,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.beautysync_kotlin.R
+import com.example.beautysync_kotlin.beautician.adapters.ContentAdapter
 import com.example.beautysync_kotlin.beautician.adapters.MeAdapter
 import com.example.beautysync_kotlin.beautician.misc.AccountSettings
 import com.example.beautysync_kotlin.beautician.misc.ServiceItemAdd
+import com.example.beautysync_kotlin.both.models.VideoModel
 import com.example.beautysync_kotlin.databinding.FragmentMe2Binding
 import com.example.beautysync_kotlin.user.adapters.HomeAdapter
 import com.example.beautysync_kotlin.user.models.ServiceItems
@@ -37,6 +40,7 @@ import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
+import java.util.concurrent.TimeUnit
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -67,8 +71,10 @@ class Me : Fragment() {
 
     private var itemType = "hairCareItems"
     private val items : MutableList<ServiceItems> = arrayListOf()
-
     private lateinit var meAdapter : MeAdapter
+
+    private var content: MutableList<VideoModel> = arrayListOf()
+    private lateinit var contentAdapter: ContentAdapter
 
 
     //Compare Dates
@@ -115,6 +121,9 @@ class Me : Fragment() {
         meAdapter = MeAdapter(requireContext(), items, itemType, "no")
         binding.serviceRecyclerView.adapter = meAdapter
 
+        contentAdapter = ContentAdapter(requireContext(), content, auth.currentUser!!.uid)
+        binding.contentView.adapter = contentAdapter
+
         loadItemInfo(itemType)
         loadOrders()
         binding.settingsButton.setOnClickListener {
@@ -136,16 +145,26 @@ class Me : Fragment() {
         binding.hairCare.setOnClickListener {
             itemType = "hairCareItems"
             loadItemInfo(itemType)
+
+            binding.serviceRecyclerView.isVisible = true
+            binding.contentView.isVisible = false
+            
             binding.hairCare.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.secondary))
             binding.hairCare.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
             binding.skinCare.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.white))
             binding.skinCare.setTextColor(ContextCompat.getColor(requireContext(), R.color.main))
             binding.nailCare.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.white))
             binding.nailCare.setTextColor(ContextCompat.getColor(requireContext(), R.color.main))
+            binding.content.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.white))
+            binding.content.setTextColor(ContextCompat.getColor(requireContext(), R.color.main))
         }
 
         binding.skinCare.setOnClickListener {
             itemType = "skinCareItems"
+
+            binding.serviceRecyclerView.isVisible = true
+            binding.contentView.isVisible = false
+
             loadItemInfo(itemType)
             binding.hairCare.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.white))
             binding.hairCare.setTextColor(ContextCompat.getColor(requireContext(), R.color.main))
@@ -153,17 +172,48 @@ class Me : Fragment() {
             binding.skinCare.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
             binding.nailCare.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.white))
             binding.nailCare.setTextColor(ContextCompat.getColor(requireContext(), R.color.main))
+            binding.content.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.white))
+            binding.content.setTextColor(ContextCompat.getColor(requireContext(), R.color.main))
         }
 
         binding.nailCare.setOnClickListener {
             itemType = "nailCareItems"
+
+            binding.serviceRecyclerView.isVisible = true
+            binding.contentView.isVisible = false
+
             loadItemInfo(itemType)
+
+            Log.d(TAG, "onCreateView: 3")
+
             binding.hairCare.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.white))
             binding.hairCare.setTextColor(ContextCompat.getColor(requireContext(), R.color.main))
             binding.skinCare.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.white))
             binding.skinCare.setTextColor(ContextCompat.getColor(requireContext(), R.color.main))
             binding.nailCare.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.secondary))
             binding.nailCare.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+            binding.content.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.white))
+            binding.content.setTextColor(ContextCompat.getColor(requireContext(), R.color.main))
+        }
+
+        binding.content.setOnClickListener {
+            itemType = "content"
+
+            binding.serviceRecyclerView.isVisible = false
+            binding.contentView.isVisible = true
+
+            loadContent()
+
+            Log.d(TAG, "onCreateView: 4")
+
+            binding.hairCare.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.white))
+            binding.hairCare.setTextColor(ContextCompat.getColor(requireContext(), R.color.main))
+            binding.skinCare.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.white))
+            binding.skinCare.setTextColor(ContextCompat.getColor(requireContext(), R.color.main))
+            binding.nailCare.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.white))
+            binding.nailCare.setTextColor(ContextCompat.getColor(requireContext(), R.color.main))
+            binding.content.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.secondary))
+            binding.content.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
         }
 
         loadHeadingInfo()
@@ -271,6 +321,120 @@ class Me : Fragment() {
                 }
             }
         }
+    }
+
+    private var createdAt = 0
+    private fun loadContent() {
+        binding.addItemButton.isVisible = true
+
+        val client = OkHttpClient.Builder()
+            .connectTimeout(20, TimeUnit.SECONDS) // Connect timeout
+            .readTimeout(20, TimeUnit.SECONDS) // Read timeout
+            .writeTimeout(20, TimeUnit.SECONDS) // Write timeout
+            .build()
+
+//        binding.progressBar.isVisible = true
+        Log.d(TAG, "loadVideos: $createdAt")
+        val body = FormBody.Builder()
+            .add("name", "${binding.userName.text}b")
+            .build()
+
+        val request = Request.Builder()
+            .url("http://beautysync-videoserver.onrender.com/get-user-videos")
+            .addHeader("Content-Type", "application/json; charset=utf-8")
+            .post(body)
+            .build()
+
+        client.newCall(request)
+            .enqueue(object : Callback {
+                override fun onFailure(call: Call, e: IOException) {
+
+                }
+
+                override fun onResponse(call: Call, response: Response) {
+                    if (response.isSuccessful) {
+                        val responseData = response.body!!.string()
+                        val responseJson =
+                            JSONObject(responseData)
+
+                        val videos = responseJson.getJSONArray("videos")
+
+                        Log.d(TAG, "onResponse: ${videos.length()}")
+
+                        mHandler.post {
+                            for (i in 0 until videos.length()) {
+                                val id = videos.getJSONObject(i)["id"].toString()
+                                val createdAtI = videos.getJSONObject(i)["createdAt"].toString()
+                                if (i == videos.length() - 1) {
+                                    createdAt = createdAtI.toInt()
+                                }
+                                var views = 5
+                                var liked = arrayListOf<String>()
+                                var comments = 0
+                                var shared = 0
+                                binding.progressBar.isVisible = false
+
+
+                                db.collection("Content").document(id).get().addOnSuccessListener { document ->
+                                    if (document.exists()) {
+                                        val data = document.data
+
+                                        if (data?.get("views") != null) {
+                                            val viewsI = data["views"] as Number
+                                            views = viewsI.toInt()
+                                        }
+                                        if (data?.get("comments") != null) {
+                                            val commentsI = data["comments"] as Number
+                                            comments = commentsI.toInt()
+                                        }
+
+                                        if (data?.get("liked") != null) {
+                                            val likedI = data["liked"] as java.util.ArrayList<String>
+                                            liked = likedI
+                                        }
+
+                                        if (data?.get("shared") != null) {
+                                            val sharedI = data["shared"] as Number
+                                            shared = sharedI.toInt()
+                                        }
+                                        val newVideo = VideoModel(videos.getJSONObject(i)["dataUrl"].toString(), id, createdAtI, videos.getJSONObject(i)["name"].toString(), videos.getJSONObject(i)["description"].toString(), views, liked, comments, shared, videos.getJSONObject(i)["thumbnailUrl"].toString())
+
+                                        if (content.isEmpty()) {
+                                            content.add(newVideo)
+                                            contentAdapter.submitList(content, auth.currentUser!!.uid)
+                                            contentAdapter.notifyDataSetChanged()
+                                        } else {
+                                            val index = content.indexOfFirst { it.id == id }
+                                            if (index == -1) {
+                                                content.add(newVideo)
+                                                contentAdapter.submitList(content, auth.currentUser!!.uid)
+                                                contentAdapter.notifyDataSetChanged()
+                                            }
+                                        }
+                                    } else {
+                                        val newVideo = VideoModel(videos.getJSONObject(i)["dataUrl"].toString(), id, createdAtI, videos.getJSONObject(i)["name"].toString(), videos.getJSONObject(i)["description"].toString(), views, liked, comments, shared, videos.getJSONObject(i)["thumbnailUrl"].toString())
+
+                                        if (content.isEmpty()) {
+                                            content.add(newVideo)
+                                            contentAdapter.submitList(content, auth.currentUser!!.uid)
+                                            contentAdapter.notifyDataSetChanged()
+                                        } else {
+                                            val index = content.indexOfFirst { it.id == id }
+                                            if (index == -1) {
+                                                content.add(newVideo)
+                                                contentAdapter.submitList(content, auth.currentUser!!.uid)
+                                                contentAdapter.notifyDataSetChanged()
+                                            }
+                                        }
+                                    }
+                                }
+
+                            }
+
+                        }
+                    }
+                }
+            })
     }
 
     private fun loadOrders() {

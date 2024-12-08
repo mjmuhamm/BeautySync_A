@@ -73,22 +73,12 @@ class OrdersAdapter(private val context: Context, private var orders: MutableLis
         return ViewHolder(OrderPostBinding.inflate(LayoutInflater.from(context), parent, false))
     }
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n", "NotifyDataSetChanged")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(orders[position])
         val item = orders[position]
 
-        if (item.cancelled == "yes") {
-            holder.notes.isVisible = false
-            holder.messagesForScheduling.visibility = View.GONE
-            holder.cancelButton.visibility = View.GONE
-            if (beauticianOrUser == "User") {
-                holder.cancelledText.text = "Your event has been cancelled by the beautician. A refund of the event price has been issued to you."
-            } else {
-                holder.cancelledText.text = "Your event has been cancelled by the user."
-            }
-            holder.messageButton.text = "Ok"
-        }
+
 
         if (beauticianOrUser == "User") {
             holder.user.text = "Beautician: ${item.beauticianUsername}"
@@ -121,6 +111,43 @@ class OrdersAdapter(private val context: Context, private var orders: MutableLis
             }
         }
 
+        if (item.cancelled == "yes") {
+            holder.notes.isVisible = false
+            holder.messagesForScheduling.visibility = View.GONE
+            holder.cancelButton.visibility = View.GONE
+            if (beauticianOrUser == "User") {
+                holder.cancelledText.text = "This event has been cancelled by the beautician. A refund of the event price has been issued to you."
+            } else {
+                holder.cancelledText.text = "This event has been cancelled by the user."
+            }
+            holder.messageButton.text = "Ok"
+        } else {
+            holder.notes.isVisible = true
+            holder.messagesForScheduling.visibility = View.VISIBLE
+            holder.cancelButton.visibility = View.VISIBLE
+            holder.cancelledText.isVisible = false
+            if (beauticianOrUser == "User") {
+                holder.user.text = "Beautician: ${item.beauticianUsername}"
+                holder.takeHome.visibility = View.GONE
+
+                holder.messagesForScheduling.visibility = View.GONE
+                holder.messageButton.text = "Messages For Scheduling"
+            } else if (beauticianOrUser == "Beautician") {
+                holder.user.text = "User: @${item.userName}"
+                holder.takeHome.visibility = View.VISIBLE
+                val cost = "%.2f".format(item.itemPrice.toDouble() * 0.95)
+                holder.takeHome.text = "Take Home: $$cost"
+
+                if (status == "pending") {
+                    holder.messagesForScheduling.visibility = View.VISIBLE
+                    holder.messageButton.text = "Accept"
+                }  else if (status == "scheduled") {
+                    holder.messagesForScheduling.visibility = View.GONE
+                    holder.messageButton.text = "Messages For Scheduling"
+                }
+            }
+        }
+
         holder.messagesForScheduling.setOnClickListener {
             val intent = Intent(context, Messages::class.java)
             intent.putExtra("item", item)
@@ -136,17 +163,18 @@ class OrdersAdapter(private val context: Context, private var orders: MutableLis
                 intent.putExtra("beautician_or_user", beauticianOrUser)
                 context.startActivity(intent)
             } else if (holder.messageButton.text == "Ok") {
+                val data1: Map<String, Any> = hashMapOf("cancelled" to "yes", "status" to "cancelled")
+                db.collection("Orders").document(item.documentId).update(data1)
                 if (beauticianOrUser == "User") {
                     val data : Map<String, Any> = hashMapOf("status" to "cancelled")
                     db.collection("User").document(auth.currentUser!!.uid).collection("Orders").document(item.documentId).update(data)
-                    orders.removeAt(position)
-                    notifyItemRemoved(position)
                 } else {
                     val data : Map<String, Any> = hashMapOf("status" to "cancelled")
                     db.collection("Beautician").document(auth.currentUser!!.uid).collection("Orders").document(item.documentId).update(data)
-                    orders.removeAt(position)
-                    notifyItemRemoved(position)
                 }
+
+                orders.removeAt(position)
+                notifyDataSetChanged()
             } else {
                 //Accept
                 val week = if (Calendar.getInstance()[Calendar.WEEK_OF_MONTH] > 4) {
