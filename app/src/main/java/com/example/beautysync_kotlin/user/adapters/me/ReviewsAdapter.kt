@@ -13,6 +13,8 @@ import com.example.beautysync_kotlin.both.misc.ProfileAsUser
 import com.example.beautysync_kotlin.databinding.UserReviewsPostBinding
 import com.example.beautysync_kotlin.user.models.Beauticians
 import com.example.beautysync_kotlin.user.models.UserReview
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
@@ -22,6 +24,7 @@ class ReviewsAdapter(private val context: Context, private var items: MutableLis
 
     private val httpClient = OkHttpClient()
     private val db = Firebase.firestore
+    private val auth = FirebaseAuth.getInstance()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(UserReviewsPostBinding.inflate(LayoutInflater.from(context), parent, false))
@@ -38,6 +41,28 @@ class ReviewsAdapter(private val context: Context, private var items: MutableLis
             intent.putExtra("user_id", item.beauticianImageId)
             context.startActivity(intent)
         }
+
+        holder.likeButton.setOnClickListener {
+            if (!holder.likeButton.isSelected) {
+                holder.likeImage.setImageResource(R.drawable.heart_filled)
+                holder.likeImage.isSelected = true
+                holder.likeText.text = "${holder.likeText.text.toString().toInt() + 1}"
+                val data1: Map<String, Any> = hashMapOf("liked" to FieldValue.arrayUnion(
+                    FirebaseAuth.getInstance().currentUser!!.uid))
+                db.collection(item.itemType).document(item.itemId).collection("Reviews").document(item.documentId).set(data1)
+
+            } else {
+                holder.likeImage.setImageResource(R.drawable.heart_unfilled)
+                holder.likeImage.isSelected = false
+                holder.likeText.text = "${holder.likeText.text.toString().toInt() - 1}"
+                val data1: Map<String, Any> = hashMapOf("liked" to FieldValue.arrayRemove(
+                    FirebaseAuth.getInstance().currentUser!!.uid))
+                db.collection(item.itemType).document(item.itemId).collection("Reviews").document(item.documentId).delete()
+
+            }
+        }
+
+
 
 
     }
@@ -78,6 +103,8 @@ class ReviewsAdapter(private val context: Context, private var items: MutableLis
         val quality = itemView.qualityRating
         val beauticianRating = itemView.beauticianRating
         val likeText = itemView.likeText
+        val likeButton = itemView.likeButton
+        val likeImage = itemView.likeImage
 
 
 

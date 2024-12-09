@@ -81,7 +81,7 @@ class HomeAdapter(private val context: Context, private var items: MutableList<S
                 holder.itemLikes.text = "${holder.itemLikes.text.toString().toInt() + 1}"
                 val data1: Map<String, Any> = hashMapOf("liked" to FieldValue.arrayUnion(FirebaseAuth.getInstance().currentUser!!.uid))
                 db.collection(item.itemType).document(item.documentId).update(data1)
-                db.collection("User").document(auth.currentUser!!.uid).collection("Likes").document(item.documentId).update(data)
+                db.collection("User").document(auth.currentUser!!.uid).collection("Likes").document(item.documentId).set(data)
                 db.collection("User").document(auth.currentUser!!.uid).collection("Beauticians").document(item.beauticianImageId).get().addOnSuccessListener { document ->
                     if (document != null) {
                         val data2 = document.data
@@ -110,7 +110,6 @@ class HomeAdapter(private val context: Context, private var items: MutableList<S
                 val data1: Map<String, Any> = hashMapOf("liked" to FieldValue.arrayRemove(FirebaseAuth.getInstance().currentUser!!.uid))
                 db.collection(item.itemType).document(item.documentId).update(data1)
                 db.collection("User").document(auth.currentUser!!.uid).collection("Likes").document(item.documentId).delete()
-
                 db.collection("User").document(auth.currentUser!!.uid).collection("Beauticians").document(item.beauticianImageId).get().addOnSuccessListener { document ->
                     if (document != null) {
                         val data2 = document.data

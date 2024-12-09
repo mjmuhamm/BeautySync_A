@@ -22,7 +22,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import okhttp3.OkHttpClient
 
-class OrdersAndLikesAdapter(private val context: Context, private var items: MutableList<ServiceItems>, private var itemType : String) : RecyclerView.Adapter<OrdersAndLikesAdapter.ViewHolder>()  {
+class OrdersAndLikesAdapter(private val context: Context, private var items: MutableList<ServiceItems>, private var itemType : String, private var meOrProfileAsUser: String) : RecyclerView.Adapter<OrdersAndLikesAdapter.ViewHolder>()  {
 
     private val httpClient = OkHttpClient()
     private val db = Firebase.firestore
@@ -43,6 +43,21 @@ class OrdersAndLikesAdapter(private val context: Context, private var items: Mut
         } else if (item.liked.contains(FirebaseAuth.getInstance().currentUser!!.uid)) {
             holder.likeImage.setImageResource(R.drawable.heart_filled)
             holder.likeImage.isSelected = true
+        } else {
+            holder.likeImage.setImageResource(R.drawable.heart_unfilled)
+            holder.likeImage.isSelected = false
+        }
+
+        if (meOrProfileAsUser == "profileAsUser" && itemType == "likes") {
+            db.collection("User").document(auth.currentUser!!.uid).collection("Likes").document(item.documentId).get().addOnSuccessListener { document ->
+                if (document.exists()) {
+                    holder.likeImage.setImageResource(R.drawable.heart_filled)
+                    holder.likeImage.isSelected = true
+                } else {
+                    holder.likeImage.setImageResource(R.drawable.heart_unfilled)
+                    holder.likeImage.isSelected = false
+                }
+            }
         }
 
         holder.location.text = "${item.beauticianCity}, ${item.beauticianState}"
@@ -62,29 +77,83 @@ class OrdersAndLikesAdapter(private val context: Context, private var items: Mut
         holder.itemPrice.text = "$${item.itemPrice}"
 
         holder.likeImage.setOnClickListener {
-            if (itemType == "likes") {
+            val data : Map<String, Any> = hashMapOf(
+                "itemType" to item.itemType,
+                "itemTitle" to item.itemTitle,
+                "itemDescription" to item.itemDescription,
+                "itemPrice" to item.itemPrice,
+                "imageCount" to item.imageCount,
+                "beauticianUsername" to item.beauticianUsername,
+                "beauticianPassion" to item.beauticianPassion,
+                "beauticianCity" to item.beauticianCity,
+                "beauticianState" to item.beauticianState,
+                "beauticianImageId" to item.beauticianImageId,
+                "liked" to item.liked,
+                "itemOrders" to item.itemOrders,
+                "itemRating" to item.itemRating,
+                "hashtags" to item.hashtags
+            )
+
+            if (itemType == "likes" && meOrProfileAsUser == "profileAsUser") {
+                if (!holder.likeImage.isSelected) {
+                    holder.likeImage.setImageResource(R.drawable.heart_filled)
+                    holder.likeImage.isSelected = true
+                    holder.itemLikes.text = "${holder.itemLikes.text.toString().toInt() + 1}"
+                    val data1: Map<String, Any> = hashMapOf("liked" to FieldValue.arrayUnion(FirebaseAuth.getInstance().currentUser!!.uid))
+                    db.collection(item.itemType).document(item.documentId).update(data1)
+                    db.collection("User").document(auth.currentUser!!.uid).collection("Likes").document(item.documentId).update(data)
+                    db.collection("User").document(auth.currentUser!!.uid).collection("Beauticians").document(item.beauticianImageId).get().addOnSuccessListener { document ->
+                        if (document != null) {
+                            val data2 = document.data
+                            if (data2 != null) {
+                                val itemCount = data2["itemCount"] as Number
+                                val data3 : Map<String, Any> = hashMapOf("itemCount" to itemCount.toInt() + 1)
+                                db.collection("User").document(auth.currentUser!!.uid).collection("Beauticians").document(item.beauticianImageId).update(data3)
+                            } else {
+                                val data3 : Map<String, Any> = hashMapOf(
+                                    "itemCount" to 1,
+                                    "beauticianImageId" to item.beauticianImageId,
+                                    "beauticianUsername" to item.beauticianUsername,
+                                    "beauticianPassion" to item.beauticianPassion,
+                                    "beauticianCity" to item.beauticianCity,
+                                    "beauticianState" to item.beauticianState
+                                )
+                                db.collection("User").document(auth.currentUser!!.uid).collection("Beauticians").document(item.beauticianImageId).update(data3)
+                            }
+                        }
+                    }
+                } else {
+                    holder.likeImage.setImageResource(R.drawable.heart_unfilled)
+                    holder.likeImage.isSelected = false
+                    holder.itemLikes.text = "${holder.itemLikes.text.toString().toInt() - 1}"
+                    val data1: Map<String, Any> = hashMapOf("liked" to FieldValue.arrayRemove(FirebaseAuth.getInstance().currentUser!!.uid))
+                    db.collection(item.itemType).document(item.documentId).update(data1)
+                    db.collection("User").document(auth.currentUser!!.uid).collection("Likes").document(item.documentId).delete()
+
+                    db.collection("User").document(auth.currentUser!!.uid).collection("Beauticians").document(item.beauticianImageId).get().addOnSuccessListener { document ->
+                        if (document != null) {
+                            val data2 = document.data
+                            if (data2 != null) {
+                                val itemCount = data2["itemCount"] as Number
+                                if (itemCount.toInt() == 1) {
+                                    db.collection("User").document(auth.currentUser!!.uid).collection("Beauticians").document(item.beauticianImageId).delete()
+                                } else {
+                                    val data3 : Map<String, Any> = hashMapOf("itemCount" to itemCount.toInt() - 1)
+                                    db.collection("User").document(auth.currentUser!!.uid).collection("Beauticians").document(item.beauticianImageId).update(data3)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (itemType == "likes" && meOrProfileAsUser != "profileAsUser") {
                 val data: Map<String, Any> = hashMapOf("liked" to FieldValue.arrayRemove(FirebaseAuth.getInstance().currentUser!!.uid))
                 db.collection(item.itemType).document(item.documentId).update(data)
                 db.collection("User").document(auth.currentUser!!.uid).collection("Likes").document(item.documentId).delete()
                 items.removeAt(position)
                 notifyItemRemoved(position)
             } else {
-                val data : Map<String, Any> = hashMapOf(
-                    "itemType" to item.itemType,
-                    "itemTitle" to item.itemTitle,
-                    "itemDescription" to item.itemDescription,
-                    "itemPrice" to item.itemPrice,
-                    "imageCount" to item.imageCount,
-                    "beauticianUsername" to item.beauticianUsername,
-                    "beauticianPassion" to item.beauticianPassion,
-                    "beauticianCity" to item.beauticianCity,
-                    "beauticianState" to item.beauticianState,
-                    "beauticianImageId" to item.beauticianImageId,
-                    "liked" to item.liked,
-                    "itemOrders" to item.itemOrders,
-                    "itemRating" to item.itemRating,
-                    "hashtags" to item.hashtags
-                )
 
                 if (!holder.likeImage.isSelected) {
                     holder.likeImage.setImageResource(R.drawable.heart_filled)

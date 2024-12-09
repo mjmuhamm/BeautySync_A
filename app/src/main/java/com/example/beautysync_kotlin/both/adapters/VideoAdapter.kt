@@ -47,8 +47,7 @@ private const val TAG = "VideoAdapter"
 class VideoAdapter(private var context: Context, private var exoPlayer: ExoPlayer, private var videos: MutableList<VideoModel>, private var beauticianOrUser: String, private var beauticianImageId: String, private var beauticianView: String) : RecyclerView.Adapter<VideoAdapter.ViewHolder>() {
 
     private val db = Firebase.firestore
-    private val user = FirebaseAuth.getInstance().currentUser!!.email!!
-    private val chefOrUserI = FirebaseAuth.getInstance().currentUser!!.displayName
+    private val user = FirebaseAuth.getInstance().currentUser!!.uid
 
     private val httpClient = OkHttpClient()
     private val mHandler: Handler = Handler(Looper.getMainLooper())

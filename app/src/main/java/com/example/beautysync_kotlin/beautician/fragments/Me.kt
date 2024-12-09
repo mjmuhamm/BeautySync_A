@@ -148,7 +148,7 @@ class Me : Fragment() {
 
             binding.serviceRecyclerView.isVisible = true
             binding.contentView.isVisible = false
-            
+
             binding.hairCare.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.secondary))
             binding.hairCare.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
             binding.skinCare.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.white))
@@ -324,6 +324,7 @@ class Me : Fragment() {
     }
 
     private var createdAt = 0
+    @Suppress("UNCHECKED_CAST")
     private fun loadContent() {
         binding.addItemButton.isVisible = true
 

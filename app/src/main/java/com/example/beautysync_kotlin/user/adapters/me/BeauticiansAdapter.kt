@@ -20,7 +20,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import okhttp3.OkHttpClient
 
-class BeauticiansAdapter(private val context: Context, private var items: MutableList<Beauticians>) : RecyclerView.Adapter<BeauticiansAdapter.ViewHolder>()  {
+class BeauticiansAdapter(private val context: Context, private var items: MutableList<Beauticians>, private var meOrProfileAsUser: String) : RecyclerView.Adapter<BeauticiansAdapter.ViewHolder>()  {
 
     private val httpClient = OkHttpClient()
     private val db = Firebase.firestore
@@ -35,6 +35,19 @@ class BeauticiansAdapter(private val context: Context, private var items: Mutabl
         holder.bind(items[position])
         val item = items[position]
 
+        if (meOrProfileAsUser != "me") {
+            db.collection("User").document(auth.currentUser!!.uid).collection("Beauticians").document(item.beauticianImageId).get().addOnSuccessListener { document ->
+                if (document.exists()) {
+                    holder.likeImage.isSelected = true
+                    holder.likeImage.setImageResource(R.drawable.heart_filled)
+                } else {
+                    holder.likeImage.isSelected = false
+                    holder.likeImage.setImageResource(R.drawable.heart_unfilled)
+                }
+            }
+
+        }
+
         holder.userImage.setOnClickListener {
             val intent = Intent(context, ProfileAsUser::class.java)
             intent.putExtra("beautician_or_user", "Beautician")
@@ -43,9 +56,24 @@ class BeauticiansAdapter(private val context: Context, private var items: Mutabl
         }
 
         holder.likeButton.setOnClickListener {
-            db.collection("User").document(auth.currentUser!!.uid).collection("Beauticians").document(item.beauticianImageId).delete()
-            items.removeAt(position)
-            notifyItemRemoved(position)
+            if (meOrProfileAsUser == "me") {
+                db.collection("User").document(auth.currentUser!!.uid).collection("Beauticians")
+                    .document(item.beauticianImageId).delete()
+                items.removeAt(position)
+                notifyItemRemoved(position)
+            }  else {
+                if (holder.likeImage.isSelected) {
+                    db.collection("User").document(auth.currentUser!!.uid).collection("Beauticians").document(item.beauticianImageId).delete()
+                    holder.likeImage.setImageResource(R.drawable.heart_unfilled)
+                    holder.likeImage.isSelected = false
+                } else {
+                    val data : Map<String, Any> = hashMapOf("beauticianCity" to item.beauticianCity, "beauticianState" to item.beauticianState, "beauticianImageId" to item.beauticianImageId, "beauticianPassion" to item.beauticianPassion, "itemCount" to 1)
+                    db.collection("User").document(auth.currentUser!!.uid).collection("Beauticians").document(item.beauticianImageId).set(data)
+                    holder.likeImage.setImageResource(R.drawable.heart_filled)
+                    holder.likeImage.isSelected = true
+
+                }
+            }
         }
 
     }
@@ -81,6 +109,7 @@ class BeauticiansAdapter(private val context: Context, private var items: Mutabl
         private val location = itemView.location
         private val username = itemView.username
         val likeButton = itemView.heartButton
+        val likeImage = itemView.likeImage
 
         @SuppressLint("SetTextI18n")
         fun bind(item: Beauticians) {

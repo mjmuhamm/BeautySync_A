@@ -119,11 +119,11 @@ class Me : Fragment() {
         // Inflate the layout for this fragment
 
         binding.ordersAndLikesRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-        ordersAndLikesAdapter = OrdersAndLikesAdapter(requireContext(), items, itemType)
+        ordersAndLikesAdapter = OrdersAndLikesAdapter(requireContext(), items, itemType, "me")
         binding.ordersAndLikesRecyclerView.adapter = ordersAndLikesAdapter
 
         binding.beauticiansRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-        beauticiansAdapter = BeauticiansAdapter(requireContext(), beauticians)
+        beauticiansAdapter = BeauticiansAdapter(requireContext(), beauticians, "me")
         binding.beauticiansRecyclerView.adapter = beauticiansAdapter
 
         binding.reviewsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -150,7 +150,7 @@ class Me : Fragment() {
             binding.reviewsRecyclerView.isVisible = false
 
             binding.ordersAndLikesRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-            ordersAndLikesAdapter = OrdersAndLikesAdapter(requireContext(), items, itemType)
+            ordersAndLikesAdapter = OrdersAndLikesAdapter(requireContext(), items, itemType, "me")
             binding.ordersAndLikesRecyclerView.adapter = ordersAndLikesAdapter
 
             loadOrders()
@@ -189,7 +189,7 @@ class Me : Fragment() {
             binding.reviewsRecyclerView.isVisible = false
 
             binding.ordersAndLikesRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-            ordersAndLikesAdapter = OrdersAndLikesAdapter(requireContext(), items, itemType)
+            ordersAndLikesAdapter = OrdersAndLikesAdapter(requireContext(), items, itemType, "me")
             binding.ordersAndLikesRecyclerView.adapter = ordersAndLikesAdapter
 
             loadLikes()
@@ -378,6 +378,7 @@ class Me : Fragment() {
             }
         }
     }
+
     @SuppressLint("NotifyDataSetChanged")
     @Suppress("UNCHECKED_CAST")
     private fun loadLikes() {
