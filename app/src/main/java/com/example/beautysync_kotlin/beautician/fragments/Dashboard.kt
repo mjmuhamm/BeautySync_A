@@ -171,7 +171,7 @@ class Dashboard : Fragment() {
 
         binding.weekly.setOnClickListener {
             toggle = "Weekly"
-            
+
             binding.typeOfServiceText.setText("")
             binding.menuItemText.setText("")
 
@@ -525,15 +525,16 @@ class Dashboard : Fragment() {
         l.setDrawInside(false)
         l.isEnabled = true
 
-        val typeOfService = arrayListOf("Cater Items", "Personal Chef Items", "MealKit Items")
+        val typeOfService = arrayListOf("Hair Care Items", "Skin Care Items", "Nail Care Items")
 
 
 
         for (i in 0 until typeOfService.size) {
             var b = typeOfService[i]
-            if (b == "Personal Chef Items") { b = "Executive Items" }
+            var c = ""
+            if (b == "Hair Care Items") { c = "hairCareItems" } else if (b == "Skin Care Items") { c = "skinCareItems" } else if (b == "Nail Care Items") { c = "nailCareItems" }
             Log.d(TAG, "loadAllTotalData: $b")
-            db.collection("Beautician").document(FirebaseAuth.getInstance().currentUser!!.uid).collection("Dashboard").document(b).get()
+            db.collection("Beautician").document(FirebaseAuth.getInstance().currentUser!!.uid).collection("Dashboard").document(c).get()
                 .addOnSuccessListener { document ->
                     if (document.exists()) {
                         val data = document.data
