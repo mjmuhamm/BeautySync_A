@@ -442,12 +442,18 @@ class Dashboard : Fragment() {
             colors.add(ColorTemplate.PASTEL_COLORS[i])
         }
 
+        var c = ""
+        when (service) {
+            "hairCareItems" -> { c = "Hair Care Items" }
+            "skinCareItems" -> { c = "Skin Care Items" }
+            "nailCareItems" -> { c = "Nail Care Items" }
+        }
 
         binding.totalPieChart.isDrawHoleEnabled = true
         binding.totalPieChart.setUsePercentValues(false)
         binding.totalPieChart.setEntryLabelTextSize(0f)
         binding.totalPieChart.setEntryLabelColor(ContextCompat.getColor(requireContext(), R.color.white))
-
+        binding.totalPieChart.centerText = c
         binding.totalPieChart.setCenterTextColor(ContextCompat.getColor(requireContext() ,R.color.main))
         binding.totalPieChart.setCenterTextSize(17f)
         binding.totalPieChart.description.isEnabled = false
