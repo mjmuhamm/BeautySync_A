@@ -610,7 +610,8 @@ class Me : Fragment() {
     private fun transferFunds(itemPrice: String, orderId: String, eventDate: String, beauticianImageId: String, userImageId: String) {
 
         val date = Calendar.getInstance().timeInMillis / 1000
-
+        val x = itemPrice.toDouble() * 0.95 * 100
+        val y = "%.0f".format(x)
         db.collection("Beautician").document(beauticianImageId).collection("BankingInfo").get().addOnSuccessListener { documents ->
             if (documents != null) {
                 for (doc in documents.documents) {
@@ -620,7 +621,7 @@ class Me : Fragment() {
 
 
                     val body = FormBody.Builder()
-                        .add("amount", "${itemPrice.toDouble() * 0.95 * 100}")
+                        .add("amount", y)
                         .add("stripeAccountId", stripeAccountId)
                         .build()
 
@@ -650,9 +651,7 @@ class Me : Fragment() {
 
 
                                         mHandler.post {
-                                            val data1: Map<String, Any> = hashMapOf("transferId" to transferId, "orderId" to id, "date" to sdf.format(
-                                                Date()
-                                            ), "userImageId" to userImageId, "beauticianImageId" to beauticianImageId, "eventDate" to eventDate)
+                                            val data1: Map<String, Any> = hashMapOf("transferId" to transferId, "orderId" to id, "date" to sdf.format(Date()), "amount" to "${itemPrice.toDouble() * 0.95 * 100}", "userImageId" to userImageId, "beauticianImageId" to beauticianImageId, "eventDate" to eventDate)
                                             db.collection("Transfers").document(orderId).set(data1)
                                         }
                                     }

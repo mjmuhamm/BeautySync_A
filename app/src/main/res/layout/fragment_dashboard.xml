@@ -140,19 +140,22 @@
         <com.github.mikephil.charting.charts.BarChart
             android:id="@+id/weekly_bar_chart"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_marginBottom="50dp"/>
 
         <com.github.mikephil.charting.charts.BarChart
             android:id="@+id/monthly_bar_chart"
             android:layout_width="match_parent"
             android:visibility="invisible"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_marginBottom="50dp"/>
 
         <com.github.mikephil.charting.charts.PieChart
             android:id="@+id/total_pie_chart"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="invisible" />
+            android:visibility="invisible"
+            android:layout_marginBottom="50dp"/>
 
     </RelativeLayout>
 </RelativeLayout>

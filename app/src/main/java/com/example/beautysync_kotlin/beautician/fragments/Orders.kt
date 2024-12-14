@@ -384,8 +384,9 @@ class Orders : Fragment() {
     private fun transferFunds(itemPrice: String, orderId: String, eventDate: String, beauticianImageId: String, userImageId: String) {
 
         val date = Calendar.getInstance().timeInMillis / 1000
-
-        db.collection("Beautician").document(auth.currentUser!!.uid).collection("BankingInfo").get().addOnSuccessListener { documents ->
+        val x = itemPrice.toDouble() * 0.95 * 100
+        val y = "%.0f".format(x)
+        db.collection("Beautician").document(beauticianImageId).collection("BankingInfo").get().addOnSuccessListener { documents ->
             if (documents != null) {
                 for (doc in documents.documents) {
                     val data = doc.data
@@ -394,7 +395,7 @@ class Orders : Fragment() {
 
 
                     val body = FormBody.Builder()
-                        .add("amount", "${itemPrice.toDouble() * 0.95 * 100}")
+                        .add("amount", y)
                         .add("stripeAccountId", stripeAccountId)
                         .build()
 
@@ -424,9 +425,7 @@ class Orders : Fragment() {
 
 
                                         mHandler.post {
-                                            val data1: Map<String, Any> = hashMapOf("transferId" to transferId, "orderId" to id, "date" to sdf.format(
-                                                Date()
-                                            ), "userImageId" to userImageId, "beauticianImageId" to beauticianImageId, "eventDate" to eventDate)
+                                            val data1: Map<String, Any> = hashMapOf("transferId" to transferId, "orderId" to id, "date" to sdf.format(Date()), "amount" to "${itemPrice.toDouble() * 0.95 * 100}", "userImageId" to userImageId, "beauticianImageId" to beauticianImageId, "eventDate" to eventDate)
                                             db.collection("Transfers").document(orderId).set(data1)
                                         }
                                     }
