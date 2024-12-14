@@ -101,7 +101,7 @@ class Dashboard : Fragment() {
     @SuppressLint("SimpleDateFormat")
     private var sdfYearMonth = SimpleDateFormat("yyyy, MM")
 
-    private var toggle = ""
+    private var toggle = "Weekly"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
