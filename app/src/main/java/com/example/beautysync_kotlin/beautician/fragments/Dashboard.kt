@@ -172,8 +172,6 @@ class Dashboard : Fragment() {
         binding.weekly.setOnClickListener {
             toggle = "Weekly"
 
-            binding.typeOfServiceText.setText("")
-            binding.menuItemText.setText("")
 
             binding.weeklyBarChart.isVisible = true
             binding.monthlyBarChart.isVisible = false
@@ -195,8 +193,6 @@ class Dashboard : Fragment() {
         binding.monthly.setOnClickListener {
             toggle = "Monthly"
 
-            binding.typeOfServiceText.setText("")
-            binding.menuItemText.setText("")
 
             binding.weeklyBarChart.isVisible = false
             binding.monthlyBarChart.isVisible = true
@@ -218,8 +214,6 @@ class Dashboard : Fragment() {
         binding.total.setOnClickListener {
             toggle = "Total"
 
-            binding.typeOfServiceText.setText("")
-            binding.menuItemText.setText("")
 
             binding.weeklyBarChart.isVisible = false
             binding.monthlyBarChart.isVisible = false
@@ -395,7 +389,7 @@ class Dashboard : Fragment() {
         }
 
 
-
+        Log.d(TAG, "loadMonthlyData: service $service")
 
         for (i in 0 until 6) {
             if (month.toInt() < 10) { month = "0$month" }
